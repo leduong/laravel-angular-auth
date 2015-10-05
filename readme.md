@@ -2,6 +2,44 @@
 
 # Step by Step
 
+
+Required:
+
+    Git
+    PHP Composer
+
+Install Backend:
+
+    Download package
+    $ git clone https://github.com/danalex/Laravel-RESTful.git
+    $ cd Laravel-RESTful
+    $ chmod -R 777 storage
+
+    run composer
+    $ composer install
+
+    Create database in your local mysql server (default use SQlite)
+    $ mysql -u root -p
+    mysql > CREATE USER 'example'@'localhost' IDENTIFIED BY 'example';
+    mysql > CREATE DATABASE IF NOT EXISTS `example`;
+    mysql > GRANT ALL PRIVILEGES ON `example`.* TO 'example'@'localhost';
+
+    or edit the database configuration file
+    $ vi app/config/database.php
+
+    run migration
+    $ php artisan migrate
+
+    run seeds
+    $ php artisan db:seed
+
+    run server (default http://localhost:8000)
+    $ php artisan serve
+
+- Setup your apache virtual host file. located: apache.conf or nginx.conf for nginx
+Done
+
+
 ## Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
