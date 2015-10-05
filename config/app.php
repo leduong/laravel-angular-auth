@@ -145,6 +145,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Toin0u\Geocoder\GeocoderServiceProvider::class,
     ],
 
     /*
@@ -194,6 +195,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
 
+        'Geocoder' => Toin0u\Geocoder\Facade\Geocoder::class,
     ],
 
 ];
