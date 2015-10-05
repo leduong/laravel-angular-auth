@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use Hash;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
+
+use App\Models\User;
+use App\Models\Token;
 
 class AuthController extends Controller
 {
@@ -34,7 +38,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Get a validator for an incoming registration req.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -54,12 +58,51 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
-    protected function create(array $data)
+    protected function create(Request $req)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = null;
+        $user = User::where('email',$req->input('email'))->first();
+
+        if (!$user){
+            $user = User::create([
+                'name'     => $req->input('name'),
+                'email'    => $req->input('email'),
+                'password' => bcrypt($req->input('password')),
+            ]);
+
+            $token             = new Token();
+            $token->user_id    = $user->id;
+            $token->id         = md5(time() + $user->email + $user->password);
+            $token->expired_at = date('Y-m-d H:i:s', strtotime("+ 24 hours"));
+            $token->save();
+            $user->token = $token->id;
+            return response()->json($user->toArray(), 201);
+        }
+        else
+            return response()->json(['status'=>'error', 'error'=>['message' => 'Email is exist!']], 403);
+    }
+
+    public function login(Request $req)
+    {
+        $user = null;
+        $user = User::where('email',$req->input('email'))->first();
+
+        if(!$user)
+            return $this->error('Invalid credentials',403);
+
+        if(!Hash::check($req->input('password'), $user->password))
+            return $this->error('Invalid credentials',403);
+        
+        $token = Token::where('user_id',$user->id)->first();
+        if(!$token)
+        {
+            $token             = new Token();
+            $token->user_id    = $user->id;
+            $token->id         = md5(time() + $user->email + $user->password);
+            $token->expired_at = date('Y-m-d H:i:s', strtotime("+ 24 hours"));
+            $token->save();
+        }
+        $user->token = $token->id;
+        return response()->json($user->toArray());
     }
 }
