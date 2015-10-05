@@ -23,7 +23,6 @@ Route::group(array(
 	'middleware' => 'token'
 ), function () {
 	Route::get('', array(
-		'before' => 'api.admin',
 		'uses' => 'UserController@index'
 	));
 
@@ -33,8 +32,7 @@ Route::group(array(
 
 
 	Route::post('', array(
-		'before' => 'api.admin',
-		'uses' => 'UserController@create'
+		'uses' => 'UserController@store'
 	))->where(array('id' => '[0-9]+'));
 
 	Route::put('{id}', array(

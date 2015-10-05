@@ -39,3 +39,4 @@ public/bower_components
 
 /vendor
 .env
+storage/database.sqlite
