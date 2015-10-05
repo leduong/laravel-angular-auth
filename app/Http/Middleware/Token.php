@@ -34,18 +34,24 @@ class Token {
      */
     public function handle($request, Closure $next){
         //return $next($request);
-        $token = $request->header('Token');
+        $token = $request->header('Authorization');
 
         if (empty($token)){
             if( $request->has('token') )
                 $token = $request->input('token');
             else
-                return response()->json(['status'=>'error', 'error'=>['message' => 'Please Login to continue!']], 403);
+                return response()->json(['status'=>'error', 'error'=>['message' => 'Token is required.']], 403);
         }
 
-        $token = TokenVerfier::where('token', '=', $token)->first();
+        $token = TokenVerfier::find($token);
         if (!$token){
-            return response()->json(['status'=>'error', 'error'=>['message' => 'token is missing']], 403);
+            return response()->json(['status'=>'error', 'error'=>['message' => 'Token is missing']], 403);
+        }
+
+        $now = time();
+        $expired_at = strtotime($token->expired_at);
+        if ($now > $expired_at) {
+            return response()->json(['status'=>'error', 'error'=>['message' => 'Token has expired.']], 403);
         }
 
         $user = User::find($token->user_id);
