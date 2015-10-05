@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTokenTable extends Migration
+class CreateUserLocationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,11 @@ class CreateTokenTable extends Migration
      */
     public function up()
     {
-        Schema::create('tokens', function (Blueprint $table) {
-            $table->string('id', 32)->primary();
+        Schema::create('users_location', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->timestamp('expired_at')->default('0000-00-00 00:00:00');
+            $table->string('latlng', 32);
+            $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -27,6 +28,6 @@ class CreateTokenTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tokens');
+         Schema::drop('users_location');
     }
 }
