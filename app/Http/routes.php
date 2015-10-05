@@ -47,3 +47,34 @@ Route::group(array(
 	))->where(array('id' => '[0-9]+'));
 
 });
+
+
+Route::group(array(
+	'prefix' => 'api/location',
+	'middleware' => 'token'
+), function () {
+	Route::get('', array(
+		'before' => 'api.admin',
+		'uses' => 'UserLocationController@index'
+	));
+
+	Route::get('{id}', array(
+		'uses' => 'UserLocationController@show'
+	))->where(array('id' => '[0-9]+'));
+
+
+	Route::post('', array(
+		'before' => 'api.admin',
+		'uses' => 'UserLocationController@create'
+	))->where(array('id' => '[0-9]+'));
+
+	Route::put('{id}', array(
+		'uses' => 'UserLocationController@update'
+	));
+	
+	Route::delete('{id}', array(
+		'before' => 'api.admin',
+		'uses' => 'UserLocationController@destroy'
+	))->where(array('id' => '[0-9]+'));
+
+});
