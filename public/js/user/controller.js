@@ -2,28 +2,15 @@
 angular.module('restApp').
 
 controller('UsersCtrl', [
-	'$scope', '$modal', '$location', 'PERPAGE', 'resolvedUser', 'UserService',
-	function ($scope, $modal, $location, PERPAGE, resolvedUser, UserService) {
+	'$scope', '$location', 'PERPAGE', 'resolvedUser', 'UserService',
+	function ($scope, $location, PERPAGE, resolvedUser, UserService) {
 		$scope.perpage = PERPAGE;
-		$scope.limit = 0;
 		$scope.q = $location.search().q || '';
-		$scope.role = $location.search().role || '';
+		$scope.limit = $location.search().limit || 20;
 		$scope.sort = $location.search().sort || '';
 		$scope.order = $location.search().order || '';
 
 		$scope.items = resolvedUser;
-
-		$scope.create = function () {
-			$scope.clear();
-			$scope.open();
-		};
-
-		$scope.update = function (id) {
-			$scope.user = UserService.get({
-				id: id
-			});
-			$scope.open(id);
-		};
 
 		$scope.delete = function (id) {
 			var x = confirm('Are you sure you want to delete User?');
@@ -58,34 +45,6 @@ controller('UsersCtrl', [
 			$scope.user = UserService.default();
 		};
 
-		$scope.open = function (id) {
-			var modal = $modal.open({
-				templateUrl: 'views/user/user-modal.html',
-				controller: [
-					'$scope', '$modalInstance', 'user',
-					function ($scope, $modalInstance, user) {
-						$scope.user = user;
-						$scope.submit = function () {
-							$modalInstance.close($scope.user);
-						};
-						$scope.dismiss = function () {
-							$modalInstance.dismiss('dismiss');
-						};
-					}
-				],
-				resolve: {
-					user: function () {
-						return $scope.user;
-					}
-				}
-			});
-
-			modal.result.then(function (entity) {
-				$scope.user = entity;
-				$scope.save(id);
-			});
-		};
-
 		$scope.shows = function (limit) {
 			$scope.limit = limit;
 			$scope.items = UserService.query({
@@ -110,7 +69,19 @@ controller('UsersCtrl', [
 			});
 		};
 
-
+		$scope.sortBy = function (sort) {
+			if ($scope.sort !== sort) {
+				$scope.sort = sort;
+				$scope.order = 'asc';
+			} else {
+				$scope.order = ($scope.order === 'asc' ? 'desc' : 'asc');
+			}
+			$scope.items = UserService.query({
+				sort: $scope.sort,
+				order: $scope.order,
+				q: $scope.q
+			});
+		};
 	}
 ]).
 

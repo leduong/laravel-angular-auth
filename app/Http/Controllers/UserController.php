@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Hash;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
+use App\Models\Token;
 
 class UserController extends Controller
 {
@@ -23,7 +25,7 @@ class UserController extends Controller
 			$sort  = $req->query('sort', 'id');
 			$order = $req->query('order', 'asc');
 
-			$users = DB::table('users')->orderBy('created_date', 'desc')->paginate($limit);
+			$users = DB::table('users')->orderBy($sort, $order)->paginate($limit);
 			return response()->json($users);
 		}
 
@@ -64,7 +66,7 @@ class UserController extends Controller
 						return response()->json($user->toArray(), 201);
 				}
 				else
-						return response()->json(['status'=>'error', 'error'=>['message' => 'Email is exist!']], 403);
+						return $this->error('Email is exist!', 400);
 		}
 
 		/**
@@ -82,7 +84,7 @@ class UserController extends Controller
 					return response()->json($user->toArray());
 				}
 				else
-					return response()->json(['status'=>'error', 'error'=>['message' => 'User is not found!']], 404);
+					return $this->error('User is not found!', 404);
 		}
 
 		/**
@@ -123,7 +125,7 @@ class UserController extends Controller
 					return response()->json($user->toArray());
 				}
 				else
-					return response()->json(['status'=>'error', 'error'=>['message' => 'User is not found!']], 404);
+					return $this->error('User is not found!', 404);
 		}
 
 		/**
@@ -142,6 +144,6 @@ class UserController extends Controller
 					return response()->json(array(), 204);
 				}
 				else
-					return response()->json(['status'=>'error', 'error'=>['message' => 'User is not found!']], 404);
+					return $this->error('User is not found!', 404);
 		}
 }

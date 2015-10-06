@@ -79,7 +79,7 @@ class AuthController extends Controller
             return response()->json($user->toArray(), 201);
         }
         else
-            return response()->json(['status'=>'error', 'error'=>['message' => 'Email is exist!']], 403);
+            return $this->error('Email is exist!',400);
     }
 
     public function login(Request $req)

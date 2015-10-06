@@ -62,7 +62,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.20/angular-cookies.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.20/angular-resource.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.15/toaster.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script>
+        <!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.4/ui-bootstrap-tpls.min.js"></script> -->
         <script src="/js/app.js"></script>
         <!-- begin "user" -->
         <script src="js/user/controller.js"></script>
