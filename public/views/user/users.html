@@ -1,0 +1,88 @@
+<div class="page page-table">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong><span class="fa fa-th"></span> Users</strong>
+        </div>
+        <div class="panel-body">
+            <div class="row text-small">
+                <div class="col-sm-4">
+                    <div class="input-group text-right">
+                        <button class="btn btn-success" go-click="/user/new" type="button"> New user</button>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 col-sm-4">
+                    <form class="input-group form-search" name="form" ng-submit="search()" role="search">
+                        <span class="input-group-addon icon"><i class="fa fa-search"></i></span>
+                        <input class="input-sm form-control" ng-model="q" placeholder="Search" type="text"/>
+                        <span class="input-group-btn"><button class="btn btn-sm btn-default" ng-click="search()" type="button">Go!</button></span>
+                    </form>
+                </div>
+            </div>
+            <div class="divider">
+            </div>
+            <div class="table-responsive table-dynamic">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="th" ng-class="{'sort-active': sort === 'id', 'sort-asc': order === 'asc', 'sort-desc': order === 'desc'}" ng-click="sortBy('id')">
+                                    ID
+                                    <span class="sort-action pull-right"><i class="fa fa-lg fa-caret-down"></i><i class="fa fa-lg fa-caret-up"></i></span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th" ng-class="{'sort-active': sort === 'name', 'sort-asc': order === 'asc', 'sort-desc': order === 'desc'}" ng-click="sortBy('name')">
+                                    Name
+                                    <span class="sort-action pull-right"><i class="fa fa-lg fa-caret-down"></i><i class="fa fa-lg fa-caret-up"></i></span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th" ng-class="{'sort-active': sort === 'email', 'sort-asc': order === 'asc', 'sort-desc': order === 'desc'}" ng-click="sortBy('email')">
+                                    E-mail
+                                    <span class="sort-action pull-right"><i class="fa fa-lg fa-caret-down"></i><i class="fa fa-lg fa-caret-up"></i></span>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="th text-center">
+                                    Action
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in items.data">
+                            <td ng-bind="user.id">
+                            </td>
+                            <td ng-bind="user.name">
+                                <a ng-href="#/user/{{ user.id }}"></a>
+                            </td>
+                            <td>
+                                <a href="mailto:{{user.email}}">{{ user.email }}</a>
+                            </td>
+                            <td class="text-center">
+                                <a class="btn btn-info" ng-href="#/user/{{ user.id }}"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-danger" href="javascript:;" ng-click="delete(user.id)"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-footer">
+                <div class="row">
+                    <div class="col-md-6 page-num-info">
+                        <p class="m-t inline">
+                            {{ items.from }}-{{ items.to }} of {{ items.total }} items
+                            <select ng-change="shows(items.per_page)" ng-model="items.per_page" ng-options="obj for obj in perpage">
+                            </select>
+                            per page
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-right pagination-container">
+                        <pagination boundary-links="true" class="pagination-sm" items-per-page="items.limit" ng-change="page(items.page)" ng-model="items.page" rotate="false" total-items="items.total">
+                        </pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<div class="page-signin">
+    <div class="signin-header">
+        <div class="container text-center">
+            <section class="logo">
+                <a ng-href="#/"> {{main.brand}}</a>
+            </section>
+        </div>
+    </div>
+    <div class="signin-body" ng-controller="SigninCtrl">
+        <div class="container">
+            <div class="form-container">
+                <form class="form-horizontal" name="form" ng-submit="submit()" role="form">
+                    <fieldset>
+                        <div class="form-group" ng-class="{'has-error': form.$dirty && form.email.$invalid}">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                                <input class="form-control" ng-model="email" placeholder="Email" type="email"></input>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': form.$dirty && form.password.$invalid}">
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                <input class="form-control" ng-model="password" placeholder="Password" type="password"></input>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-lg btn-block" ng-disabled="form.$invalid" type="submit">Log in</button>
+                        </div>
+                    </fieldset>
+                </form>
+                <section>
+                    <p class="text-center">
+                        <a ng-href="#/user/forgot">Forgot your password?</a>
+                    </p>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

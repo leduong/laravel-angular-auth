@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -15,9 +16,15 @@ class UserController extends Controller
 		 *
 		 * @return \Illuminate\Http\Response
 		 */
-		public function index()
+		public function index(Request $req)
 		{
-				return response()->json(User::all());
+			$q     = $req->query('q', null);
+			$limit = $req->query('limit', 20);
+			$sort  = $req->query('sort', 'id');
+			$order = $req->query('order', 'asc');
+
+			$users = DB::table('users')->orderBy('created_date', 'desc')->paginate($limit);
+			return response()->json($users);
 		}
 
 		/**
