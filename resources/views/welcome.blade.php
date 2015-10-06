@@ -40,8 +40,11 @@
                     <li class="active">
                         <a href="#/users">Users</a>
                     </li>
-                    <li>
+                    <li ng-hide="isLogged()">
                         <a href="#/signin">Sign in</a>
+                    </li>
+                    <li ng-hide="!isLogged()">
+                        <a href="#/signout">Sign out</a>
                     </li>
                 </ul>
             </div>

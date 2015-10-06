@@ -25,6 +25,14 @@ config(['$routeProvider',
 		a.when('/signin', {
 			templateUrl: 'views/page/signin.html',
 		}).
+		when("/signout", {
+			resolve: {
+				logout: function ($location, appService) {
+					appService.unset('Authorization');
+					$location.path("/signin");
+				}
+			}
+		}).
 		otherwise({
 			redirectTo: '/'
 		});
@@ -199,8 +207,11 @@ factory("AuthService", [
 
 
 controller('AppCtrl', [
-	'$scope', 'toaster',
-	function ($scope, toaster) {
+	'$scope', 'toaster', 'appService',
+	function ($scope, toaster, appService) {
+		$scope.isLogged = function () {
+			return appService.get('Authorization');
+		};
 		$scope.$on('success', function (event, msg) {
 			toaster.pop('success', '', msg);
 		});
@@ -234,7 +245,7 @@ controller("SigninCtrl", [
 					if ($rootScope.isPath && $rootScope.isPath !== "/signin") {
 						path = $rootScope.isPath;
 					} else {
-						path = "/";
+						path = "/users";
 					}
 					$location.path(path);
 				});

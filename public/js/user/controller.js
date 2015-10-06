@@ -117,14 +117,8 @@ controller('UsersCtrl', [
 controller('UserCtrl', [
 	'$scope', '$location', 'UserService', 'user',
 	function ($scope, $location, UserService, user) {
-		// console.log(user);
-		$scope.user = user;
 
-		$scope.open = function ($event) {
-			$event.preventDefault();
-			$event.stopPropagation();
-			$scope.opened = true;
-		};
+		$scope.user = user;
 
 		$scope.submit = function () {
 			if ($scope.user.id) {
