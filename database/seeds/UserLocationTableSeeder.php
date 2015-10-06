@@ -17,8 +17,8 @@ class UserLocationTableSeeder extends Seeder
 			foreach ($users_locations as $obj) {
 				$uid++;
 				UserLocation::create([
+                        'user_id'    => $uid,
 						'latlng'     => $obj->latlng,
-						'user_id'    => $uid,
 				]);
 			}
     }

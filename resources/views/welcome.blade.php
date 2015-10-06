@@ -12,6 +12,8 @@
         <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
         <link href="//cdnjs.cloudflare.com/ajax/libs/angularjs-toaster/0.4.15/toaster.min.css" rel="stylesheet" type="text/css"/>
         <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
         <style type="text/css">
         .page {
             padding: 15px;
@@ -19,6 +21,7 @@
         .divider {
             margin-top: 5px;
         }
+        #map { height: 300px; min-width: 300px; }
         </style>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

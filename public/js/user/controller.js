@@ -86,8 +86,8 @@ controller('UsersCtrl', [
 ]).
 
 controller('UserCtrl', [
-	'$scope', '$location', 'UserService', 'user',
-	function ($scope, $location, UserService, user) {
+	'$scope', '$location', '$timeout', 'UserService', 'user',
+	function ($scope, $location, $timeout, UserService, user) {
 
 		$scope.user = user;
 
@@ -110,6 +110,35 @@ controller('UserCtrl', [
 		$scope.dismiss = function () {
 			$scope.user = user;
 		};
+
+		function initMap(latlng) {
+			var map = L.map('map').setView(latlng, 13);
+
+			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6IjZjNmRjNzk3ZmE2MTcwOTEwMGY0MzU3YjUzOWFmNWZhIn0.Y8bhBaUMqFiPrDRW9hieoQ', {
+				maxZoom: 18,
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+					'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+					'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				id: 'mapbox.streets'
+			}).addTo(map);
+
+			var popup = L.popup();
+
+			function onMapClick(e) {
+				popup
+					.setLatLng(e.latlng)
+					.setContent("You clicked the map at " + e.latlng.toString())
+					.openOn(map);
+			}
+
+			map.on('click', onMapClick);
+
+		}
+
+		$timeout(function () {
+			var latlng = $scope.user.latlng.latlng || '[51.505, -0.09]';
+			initMap(latlng.split(', '));
+		}, 300);
 
 	}
 ]);
