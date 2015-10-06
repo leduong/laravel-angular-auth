@@ -129,7 +129,7 @@ controller('UserCtrl', [
 		$scope.submit = function () {
 			if ($scope.user.id) {
 				UserService.update({
-						id: id
+						id: user.id
 					}, $scope.user,
 					function () {
 						$location.path('/users');

@@ -119,7 +119,7 @@ class UserController extends Controller
 							return $this->error('New password not same current password', 403);
 						$user->password = bcrypt($req->input('password'));
 					}
-					$save->save();
+					$user->save();
 					return response()->json($user->toArray());
 				}
 				else

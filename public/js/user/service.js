@@ -16,7 +16,6 @@ factory('UserService', [
 			},
 			default: {
 				id: '',
-				register: true
 			}
 		});
 	}
